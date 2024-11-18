@@ -12,5 +12,8 @@ data class UserTeamDto(
     val userId: String,
     val name: String,
     val coachName: String,
-    val acronym: String
+    val code: String,
+    val budget: Double,
+    val patrimony: Double,
+    val points: Double
 )

@@ -1,7 +1,10 @@
 package com.effies.draft.application.services
 
+import com.effies.draft.adapter.`in`.http.exceptions.AlreadyExistsException
+import com.effies.draft.adapter.`in`.http.exceptions.NotFoundException
 import com.effies.draft.adapter.`in`.http.exceptions.ValidatorException
-import com.effies.draft.adapter.out.persistence.UserTeamDto
+import com.effies.draft.adapter.mappers.toDomain
+import com.effies.draft.adapter.mappers.toDto
 import com.effies.draft.application.port.out.UserTeamRepository
 import com.effies.draft.application.validations.UserTeamValidator
 import com.effies.draft.domains.UserTeam
@@ -13,25 +16,27 @@ class UserTeamService(
 
     fun create(userTeam: UserTeam): UserTeam {
 
-        val result = UserTeamValidator().validate(userTeam)
-        if(!result.valid) throw ValidatorException(result.errors)
+        val teamExists = repository.findByUserId(userTeam.userId)
 
-        val userTeamDto = UserTeamDto(
-            teamId = UUID.randomUUID().toString(),
-            userId = userTeam.userId,
-            name = userTeam.name,
-            acronym = userTeam.acronym,
-            coachName = userTeam.coachName
-        )
+        if( teamExists == null){
+            val result = UserTeamValidator().validate(userTeam)
+            if(!result.valid) throw ValidatorException(result.errors)
 
-        val teamSaved = repository.save(userTeamDto)
+            val newTeam = userTeam.copy(
+                teamId = UUID.randomUUID().toString(),
+                budget = 100.00
+            ).toDto()
 
-        return UserTeam(
-            teamId = teamSaved.teamId,
-            userId = teamSaved.userId,
-            name = teamSaved.name,
-            acronym = teamSaved.acronym,
-            coachName = teamSaved.coachName
-        )
+            return repository.save(newTeam).toDomain()
+        }
+
+        throw AlreadyExistsException("A team for this user already exists.")
+
+    }
+
+    fun getById(userId:String): UserTeam {
+        val userTeam = repository.findByUserId(userId) ?: throw NotFoundException("Resource not found this user.")
+
+        return userTeam.toDomain()
     }
 }

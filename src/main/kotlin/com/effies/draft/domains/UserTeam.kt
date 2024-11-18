@@ -5,5 +5,8 @@ data class UserTeam (
     val userId: String,
     val name: String,
     val coachName: String,
-    val acronym: String
+    val code: String,
+    val budget: Double = 0.00,
+    val patrimony: Double = 0.00,
+    val points: Double = 0.00
 )

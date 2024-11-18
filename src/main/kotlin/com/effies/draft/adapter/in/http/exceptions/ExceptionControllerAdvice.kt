@@ -14,14 +14,14 @@ class ExceptionControllerAdvice {
     @ExceptionHandler
     fun BadRequestException(exception: BadRequestException): ResponseEntity<ExceptionMessage>{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            ExceptionMessage( error = "BAD REQUEST", exception.message)
+            ExceptionMessage( error = "BadRequest", exception.message)
         )
     }
 
     @ExceptionHandler
     fun ValidatorExceptionHandler(exception: ValidatorException): ResponseEntity<ExceptionMessage>{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            ExceptionMessage( error = "VALIDATION FIELD", exception.error)
+            ExceptionMessage( error = "ValidationField", exception.error)
         )
     }
 
@@ -32,7 +32,21 @@ class ExceptionControllerAdvice {
         val error = mapOf(field to listOf("required field"))
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            ExceptionMessage(error = "VALIDATION FIELD", error)
+            ExceptionMessage(error = "ValidationField", error)
+        )
+    }
+
+    @ExceptionHandler
+    fun NotFoundExceptionHandler(exception: NotFoundException): ResponseEntity<ExceptionMessage>{
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            ExceptionMessage( error = "NotFound", exception.error)
+        )
+    }
+
+    @ExceptionHandler
+    fun AlreadyExistsExceptionHandler(exception: AlreadyExistsException): ResponseEntity<ExceptionMessage>{
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+            ExceptionMessage( error = "ResourceAlreadyExists", exception.error)
         )
     }
 }
