@@ -1,4 +1,4 @@
-package com.effies.draft.adapter.out.persistence
+package com.effies.draft.adapter.out.persistence.postgres
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -6,7 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "user_teams")
-data class UserTeamDto(
+data class UserTeamEntity(
     @Id
     val teamId: String,
     val userId: String,

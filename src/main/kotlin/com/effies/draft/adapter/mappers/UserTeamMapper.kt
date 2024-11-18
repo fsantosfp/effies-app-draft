@@ -1,7 +1,7 @@
 package com.effies.draft.adapter.mappers
 
 import com.effies.draft.adapter.`in`.http.msg.UserTeamMsg
-import com.effies.draft.adapter.out.persistence.UserTeamDto
+import com.effies.draft.adapter.out.persistence.postgres.UserTeamEntity
 import com.effies.draft.domains.UserTeam
 
 fun UserTeamMsg.toDomain(userId: String): UserTeam{
@@ -26,8 +26,8 @@ fun UserTeam.toMsg(): UserTeamMsg {
     )
 }
 
-fun UserTeam.toDto(): UserTeamDto{
-    return UserTeamDto(
+fun UserTeam.toDto(): UserTeamEntity {
+    return UserTeamEntity(
         teamId = this.teamId!!,
         userId = this.userId,
         name= this.name,
@@ -39,7 +39,7 @@ fun UserTeam.toDto(): UserTeamDto{
     )
 }
 
-fun UserTeamDto.toDomain(): UserTeam{
+fun UserTeamEntity.toDomain(): UserTeam{
     return UserTeam(
         teamId = this.teamId,
         userId = this.userId,
