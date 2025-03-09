@@ -1,43 +1,43 @@
 package com.effies.draft.adapter.`in`.http.controllers
 
 import com.effies.draft.adapter.`in`.http.msg.ResponseMsg
-import com.effies.draft.adapter.`in`.http.msg.UserTeamMsg
+import com.effies.draft.adapter.`in`.http.msg.TeamMsg
 import com.effies.draft.adapter.`in`.http.utils.Path.TEAM_PATH
 import com.effies.draft.adapter.`in`.http.utils.PathParam.USER_ID
 import com.effies.draft.adapter.mappers.toDomain
 import com.effies.draft.adapter.mappers.toMsg
-import com.effies.draft.application.services.UserTeamService
+import com.effies.draft.application.services.TeamService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class TeamController(
-    private val service: UserTeamService
+    private val service: TeamService
 ) {
 
     @PostMapping(TEAM_PATH)
     suspend fun create(
         @PathVariable(USER_ID) userId: String,
-        @RequestBody teamRequest: UserTeamMsg
-    ): ResponseEntity<ResponseMsg<UserTeamMsg>> {
+        @RequestBody teamRequest: TeamMsg
+    ): ResponseEntity<ResponseMsg<TeamMsg>> {
 
-        val userTeam = service.create(teamRequest.toDomain(userId)).toMsg()
+        val team = service.create(teamRequest.toDomain(userId))
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-            ResponseMsg(data = userTeam)
+            ResponseMsg(data = team.toMsg())
         )
     }
 
     @GetMapping(TEAM_PATH)
     suspend fun getById(
         @PathVariable(USER_ID) userId: String,
-    ): ResponseEntity<ResponseMsg<UserTeamMsg>> {
+    ): ResponseEntity<ResponseMsg<TeamMsg>> {
 
-        val userTeam = service.getById(userId).toMsg()
+        val team = service.getById(userId)
 
         return ResponseEntity.status(HttpStatus.OK).body(
-            ResponseMsg(data = userTeam)
+            ResponseMsg(data = team.toMsg())
         )
     }
 }

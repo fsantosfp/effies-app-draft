@@ -5,15 +5,11 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "user_teams")
-data class UserTeamEntity(
+@Table(name = "team")
+data class TeamEntity(
     @Id
     val teamId: String,
     val userId: String,
     val name: String,
-    val coachName: String,
-    val code: String,
-    val budget: Double,
-    val patrimony: Double,
-    val points: Double
+    val code: String
 )

@@ -2,24 +2,24 @@ package com.effies.draft.application.validations
 
 import com.effies.draft.application.validations.validator.ValidationResult
 import com.effies.draft.application.validations.validator.Validator
-import com.effies.draft.domains.UserTeam
+import com.effies.draft.domains.Team
 
-class UserTeamValidator : Validator(){
+class TeamValidator : Validator(){
 
     companion object {
         val CharacterSequence = "(.)\\1{3,}".toRegex()
     }
-    fun validate(userTeam: UserTeam): ValidationResult {
+    fun validate(team: Team): ValidationResult {
 
-        if(userTeam.name.isBlank()){
+        if(team.name.isBlank()){
             fail(field = "name", message = "must not be blank")
         }
 
-        if(userTeam.name.length < 5){
+        if(team.name.length < 5){
             fail(field = "name", message = "invalid size")
         }
 
-        if(CharacterSequence.containsMatchIn(userTeam.name)){
+        if(CharacterSequence.containsMatchIn(team.name)){
             fail(field = "name", message = "invalid value")
         }
 
