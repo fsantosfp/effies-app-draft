@@ -1,4 +1,4 @@
-package com.effies.draft.adapter.`in`.http.exceptions
+package com.effies.draft.application.exceptions
 
 class ValidatorException(message: Map<String, List<String>>): RuntimeException() {
     val error = message

@@ -1,8 +1,10 @@
-package com.effies.draft.adapter.mappers
+package com.effies.draft.mappers
 
 import com.effies.draft.adapter.`in`.http.msg.TeamMsg
+import com.effies.draft.adapter.`in`.http.msg.TeamStatsMsg
 import com.effies.draft.adapter.out.persistence.postgres.TeamEntity
 import com.effies.draft.domains.Team
+import com.effies.draft.domains.TeamStats
 
 fun TeamMsg.toDomain(userId: String): Team{
     return Team(
@@ -36,5 +38,13 @@ fun TeamEntity.toDomain(): Team{
         userId = this.userId,
         name= this.name,
         code = this.code
+    )
+}
+
+fun TeamStats.toMsg(): TeamStatsMsg{
+    return TeamStatsMsg(
+        teamName = this.teamName,
+        financial = this.financial.toMsg(),
+        score = this.score.toMsg()
     )
 }
