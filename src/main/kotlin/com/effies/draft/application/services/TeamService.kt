@@ -1,10 +1,10 @@
 package com.effies.draft.application.services
 
-import com.effies.draft.adapter.`in`.http.exceptions.AlreadyExistsException
-import com.effies.draft.adapter.`in`.http.exceptions.NotFoundException
-import com.effies.draft.adapter.`in`.http.exceptions.ValidatorException
-import com.effies.draft.adapter.mappers.toDomain
-import com.effies.draft.adapter.mappers.toEntity
+import com.effies.draft.application.exceptions.AlreadyExistsException
+import com.effies.draft.application.exceptions.NotFoundException
+import com.effies.draft.application.exceptions.ValidatorException
+import com.effies.draft.mappers.toDomain
+import com.effies.draft.mappers.toEntity
 import com.effies.draft.application.port.out.FinancialRepository
 import com.effies.draft.application.port.out.ScoreRepository
 import com.effies.draft.application.port.out.TeamRepository
@@ -12,6 +12,7 @@ import com.effies.draft.application.validations.TeamValidator
 import com.effies.draft.domains.Financial
 import com.effies.draft.domains.Score
 import com.effies.draft.domains.Team
+import com.effies.draft.domains.TeamStats
 import java.util.UUID
 
 class TeamService(
@@ -50,8 +51,25 @@ class TeamService(
         throw AlreadyExistsException("A team for this user already exists.")
     }
 
-    fun getById(userId:String): Team {
-        val userTeam = teamRepository.findByUserId(userId) ?: throw NotFoundException("Resource not found this user.")
+    fun getById(userId: String): Team {
+        val userTeam = teamRepository.findByUserId(userId) ?: throw NotFoundException("Resource not found.")
         return userTeam.toDomain()
+    }
+
+    fun getStats(userId: String, teamId: String): TeamStats {
+
+        val team = this.getById(userId)
+
+        if(!team.teamId.equals(teamId)) throw NotFoundException("Resource not found.")
+
+        val financial = financialRepository.findByTeamId(teamId).toDomain()
+        val score = scoreRepository.findByTeamId(teamId).toDomain()
+
+        return TeamStats(
+            teamName = team.name,
+            financial = financial,
+            score = score
+        )
+
     }
 }

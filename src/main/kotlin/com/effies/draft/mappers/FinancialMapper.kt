@@ -1,4 +1,4 @@
-package com.effies.draft.adapter.mappers
+package com.effies.draft.mappers
 
 import com.effies.draft.adapter.`in`.http.msg.FinancialMsg
 import com.effies.draft.adapter.out.persistence.postgres.FinancialEntity
