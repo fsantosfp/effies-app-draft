@@ -1,4 +1,4 @@
-package com.effies.draft.domains
+package com.effies.draft.domains.draft
 
 data class Team (
     val teamId: String? = null,

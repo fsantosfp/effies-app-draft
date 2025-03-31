@@ -1,10 +1,10 @@
-package com.effies.draft.mappers
+package com.effies.draft.mappers.draft
 
 import com.effies.draft.adapter.`in`.http.msg.ScoreMsg
-import com.effies.draft.adapter.out.persistence.postgres.ScoreEntity
-import com.effies.draft.domains.Score
+import com.effies.draft.adapter.out.persistence.postgres.draft.ScoreEntity
+import com.effies.draft.domains.draft.Score
 
-fun Score.toEntity(teamId:String): ScoreEntity{
+fun Score.toEntity(teamId:String): ScoreEntity {
     return ScoreEntity(
         teamId = teamId,
         totalScore = this.totalScore,

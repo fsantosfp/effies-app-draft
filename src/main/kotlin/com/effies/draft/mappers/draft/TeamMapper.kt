@@ -1,12 +1,12 @@
-package com.effies.draft.mappers
+package com.effies.draft.mappers.draft
 
 import com.effies.draft.adapter.`in`.http.msg.TeamMsg
 import com.effies.draft.adapter.`in`.http.msg.TeamStatsMsg
-import com.effies.draft.adapter.out.persistence.postgres.TeamEntity
-import com.effies.draft.domains.Team
-import com.effies.draft.domains.TeamStats
+import com.effies.draft.adapter.out.persistence.postgres.draft.TeamEntity
+import com.effies.draft.domains.draft.Team
+import com.effies.draft.domains.draft.TeamStats
 
-fun TeamMsg.toDomain(userId: String): Team{
+fun TeamMsg.toDomain(userId: String): Team {
     return Team(
         teamId = this.teamId,
         userId = userId,
@@ -32,7 +32,7 @@ fun Team.toEntity(): TeamEntity {
     )
 }
 
-fun TeamEntity.toDomain(): Team{
+fun TeamEntity.toDomain(): Team {
     return Team(
         teamId = this.teamId,
         userId = this.userId,

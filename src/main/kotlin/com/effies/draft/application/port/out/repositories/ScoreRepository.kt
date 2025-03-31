@@ -1,6 +1,6 @@
 package com.effies.draft.application.port.out.repositories
 
-import com.effies.draft.adapter.out.persistence.postgres.ScoreEntity
+import com.effies.draft.adapter.out.persistence.postgres.draft.ScoreEntity
 import org.springframework.data.repository.CrudRepository
 
 interface ScoreRepository: CrudRepository<ScoreEntity, String> {

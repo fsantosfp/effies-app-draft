@@ -7,8 +7,8 @@ import com.effies.draft.adapter.`in`.http.utils.Path.TEAM_PATH
 import com.effies.draft.adapter.`in`.http.utils.Path.TEAM_STATS_PATH
 import com.effies.draft.adapter.`in`.http.utils.PathParam.TEAM_ID
 import com.effies.draft.adapter.`in`.http.utils.PathParam.USER_ID
-import com.effies.draft.mappers.toDomain
-import com.effies.draft.mappers.toMsg
+import com.effies.draft.mappers.draft.toDomain
+import com.effies.draft.mappers.draft.toMsg
 import com.effies.draft.application.services.TeamService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

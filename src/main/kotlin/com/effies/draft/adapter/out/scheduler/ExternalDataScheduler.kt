@@ -6,8 +6,8 @@ import com.effies.draft.application.port.out.repositories.ProLeagueRepository
 import com.effies.draft.application.port.out.repositories.ProPlayerRepository
 import com.effies.draft.application.port.out.repositories.ProTeamRepository
 import com.effies.draft.domains.RoleEnum
-import com.effies.draft.mappers.ToEntity
-import com.effies.draft.mappers.toEntity
+import com.effies.draft.mappers.professional.ToEntity
+import com.effies.draft.mappers.draft.toEntity
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 

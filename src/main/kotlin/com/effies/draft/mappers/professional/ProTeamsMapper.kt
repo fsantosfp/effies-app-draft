@@ -1,9 +1,9 @@
-package com.effies.draft.mappers
+package com.effies.draft.mappers.professional
 
 import com.effies.draft.adapter.out.api.msg.ProPlayerResponse
 import com.effies.draft.adapter.out.api.msg.ProTeamResponse
-import com.effies.draft.adapter.out.persistence.postgres.ProPlayerEntity
-import com.effies.draft.adapter.out.persistence.postgres.ProTeamEntity
+import com.effies.draft.adapter.out.persistence.postgres.professional.ProPlayerEntity
+import com.effies.draft.adapter.out.persistence.postgres.professional.ProTeamEntity
 
 
 fun ProTeamResponse.toEntity(leagueId: String): ProTeamEntity {
