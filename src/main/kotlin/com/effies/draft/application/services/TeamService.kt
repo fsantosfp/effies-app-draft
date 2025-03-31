@@ -5,9 +5,9 @@ import com.effies.draft.application.exceptions.NotFoundException
 import com.effies.draft.application.exceptions.ValidatorException
 import com.effies.draft.mappers.toDomain
 import com.effies.draft.mappers.toEntity
-import com.effies.draft.application.port.out.FinancialRepository
-import com.effies.draft.application.port.out.ScoreRepository
-import com.effies.draft.application.port.out.TeamRepository
+import com.effies.draft.application.port.out.repositories.FinancialRepository
+import com.effies.draft.application.port.out.repositories.ScoreRepository
+import com.effies.draft.application.port.out.repositories.TeamRepository
 import com.effies.draft.application.validations.TeamValidator
 import com.effies.draft.domains.Financial
 import com.effies.draft.domains.Score
