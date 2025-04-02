@@ -1,63 +1,52 @@
 package com.effies.draft.adapter.out.scheduler
 
 import com.effies.draft.adapter.out.api.LegueOfLegendsExternalApi
+import com.effies.draft.adapter.out.api.msg.ProPlayerResponse
 import com.effies.draft.adapter.out.api.msg.ProTeamResponse
 import com.effies.draft.application.port.out.repositories.ProLeagueRepository
-import com.effies.draft.application.port.out.repositories.ProPlayerRepository
 import com.effies.draft.application.port.out.repositories.ProTeamRepository
-import com.effies.draft.domains.RoleEnum
-import com.effies.draft.mappers.ToEntity
-import com.effies.draft.mappers.toEntity
+import com.effies.draft.mappers.professional.toEntity
 import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class ExternalDataScheduler(
-    private val legueOfLegendsExternalApi: LegueOfLegendsExternalApi,
-    private val teamRepository: ProTeamRepository,
+    private val lolClient: LegueOfLegendsExternalApi,
     private val leagueRepository: ProLeagueRepository,
-    private val playerRepository : ProPlayerRepository,
+    private val teamRepository: ProTeamRepository
 ) {
 
     @Scheduled(fixedDelay = 60_000)
     fun getInfo(){
 
         try {
-            val leagueResponse = legueOfLegendsExternalApi.getLeague()
-            val teamResponse = legueOfLegendsExternalApi.getTeams()
 
-            leagueResponse.leagues.forEach { leagueRepository.save(it.ToEntity()) }
+            val leagues = lolClient.getLeague().leagues
+            val teams = lolClient.getTeams()?.teams
 
-            teamResponse?.teams
-                ?.filter { it.name != "TBD"}
-                ?.forEach { team ->
-                    handlerTeam(team)
-                    handlerPlayer(team)
-                }
+            leagues.forEach {
+
+                val league = it.toEntity()
+                leagueRepository.save(league)
+
+                teams
+                    ?.filter { team -> team.homeLeague?.name == league.name }
+                    ?.forEach { responseTeam ->
+                        if( isActiveTeam(responseTeam) && hasPlayers(responseTeam.players) ){
+                            val team = responseTeam.toEntity(league)
+                            team.players.addAll(responseTeam.players!!.toEntity(team))
+                            teamRepository.save(team)
+                        }else{
+                            teamRepository.deleteById(responseTeam.id)
+                        }
+                    }
+            }
 
         }catch (e: Exception){
             println(e)
         }
-
     }
-
-    private fun handlerTeam(team: ProTeamResponse){
-        if( team.status != "archived" && team.homeLeague != null ){
-            val leagueId = leagueRepository.findByName(team.homeLeague.name).id
-            teamRepository.save(team.toEntity(leagueId))
-        }else{
-            teamRepository.deleteById(team.id)
-        }
-    }
-
-    private fun handlerPlayer(team: ProTeamResponse){
-        team.players?.forEach {
-
-            val role = RoleEnum.fromDescription(it.role)
-            if(role != null){
-                playerRepository.save(it.toEntity(role.id, team.id))
-            }
-        }
-    }
+    private fun isActiveTeam(team: ProTeamResponse) = team.status != "archived" && team.homeLeague != null
+    private fun hasPlayers(players: List<ProPlayerResponse>?) = !players.isNullOrEmpty()
 
 }

@@ -11,3 +11,7 @@ class NotFoundException(message: String): RuntimeException() {
 class AlreadyExistsException(message: String): RuntimeException(){
     val error = message
 }
+
+class BadRequestException(message: String): RuntimeException(){
+    val error = message
+}

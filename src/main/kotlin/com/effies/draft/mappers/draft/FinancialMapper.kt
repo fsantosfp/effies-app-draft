@@ -1,10 +1,10 @@
-package com.effies.draft.mappers
+package com.effies.draft.mappers.draft
 
 import com.effies.draft.adapter.`in`.http.msg.FinancialMsg
-import com.effies.draft.adapter.out.persistence.postgres.FinancialEntity
-import com.effies.draft.domains.Financial
+import com.effies.draft.adapter.out.persistence.postgres.draft.FinancialEntity
+import com.effies.draft.domains.draft.Financial
 
-fun FinancialMsg.toDomain(): Financial{
+fun FinancialMsg.toDomain(): Financial {
     return Financial(
         budget = this.budget,
         patrimony = this.patrimony

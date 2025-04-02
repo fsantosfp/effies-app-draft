@@ -2,7 +2,7 @@ package com.effies.draft.application.validations
 
 import com.effies.draft.application.validations.validator.ValidationResult
 import com.effies.draft.application.validations.validator.Validator
-import com.effies.draft.domains.Team
+import com.effies.draft.domains.draft.Team
 
 class TeamValidator : Validator(){
 

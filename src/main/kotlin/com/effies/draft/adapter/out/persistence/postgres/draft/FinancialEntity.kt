@@ -1,4 +1,4 @@
-package com.effies.draft.adapter.out.persistence.postgres
+package com.effies.draft.adapter.out.persistence.postgres.draft
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
