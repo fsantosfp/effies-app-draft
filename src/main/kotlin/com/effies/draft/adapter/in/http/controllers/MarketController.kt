@@ -1,10 +1,11 @@
 package com.effies.draft.adapter.`in`.http.controllers
 
-import com.effies.draft.adapter.`in`.http.msg.*
+import com.effies.draft.adapter.`in`.http.msg.MarketPlayersMsg
+import com.effies.draft.adapter.`in`.http.msg.ResponseMsg
 import com.effies.draft.adapter.`in`.http.utils.Path.MARKET_PATH
 import com.effies.draft.application.exceptions.BadRequestException
-import com.effies.draft.application.services.MarketFilter
 import com.effies.draft.application.services.MarketService
+import com.effies.draft.domains.draft.MarketFilter
 import com.effies.draft.mappers.draft.toMsg
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

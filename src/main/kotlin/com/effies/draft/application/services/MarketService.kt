@@ -95,17 +95,3 @@ class MarketService(
         return (filter.byRole != null && RoleEnum.contains(filter.byRole)) || filter.byRole == null
     }
 }
-
-data class MarketData(
-    val teams: List<ProTeam>,
-    val league: HomeLeague,
-    val score: ProPlayerScore? = null,
-    val value: ProPlayerValue? = null
-)
-
-data class MarketFilter(
-    val byRole: Int? = null,
-    val byTeam: String? = null
-){
-    fun isNotNull(): Boolean = this.byRole != null || !this.byTeam.isNullOrBlank()
-}
