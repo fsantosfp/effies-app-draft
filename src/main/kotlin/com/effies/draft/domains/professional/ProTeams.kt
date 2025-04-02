@@ -6,13 +6,10 @@ data class ProTeams(
 
 data class ProTeam(
     val id: String,
-    val slug: String,
     val name: String,
     val code: String,
     val image: String,
-    val status: String,
-    val homeLeague: HomeLeague,
-    val players: List<ProPlayer>
+    val players: Set<ProPlayer>? = null
 )
 
 data class HomeLeague (
@@ -24,5 +21,5 @@ data class ProPlayer(
     val id: String,
     val summonerName: String,
     val image: String,
-    val role: String
+    val role: Int
 )

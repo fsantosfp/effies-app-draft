@@ -1,8 +1,9 @@
 package com.effies.draft.adapter.out.persistence.postgres.professional
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "pro_team")
@@ -12,5 +13,11 @@ data class ProTeamEntity (
     val name: String,
     val code: String,
     val image: String,
-    val leagueId: String
+
+    @ManyToOne()
+    @JoinColumn(name = "league_id")
+    val league: ProLeagueEntity,
+
+    @OneToMany(mappedBy = "team", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val players: MutableList<ProPlayerEntity> = mutableListOf()
 )

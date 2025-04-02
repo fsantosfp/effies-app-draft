@@ -1,8 +1,7 @@
 package com.effies.draft.adapter.`in`.http.configs
 
-import com.effies.draft.application.port.out.repositories.FinancialRepository
-import com.effies.draft.application.port.out.repositories.ScoreRepository
-import com.effies.draft.application.port.out.repositories.TeamRepository
+import com.effies.draft.application.port.out.repositories.*
+import com.effies.draft.application.services.MarketService
 import com.effies.draft.application.services.TeamService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -20,6 +19,17 @@ class ServiceConfig {
             teamRepository,
             financialRepository,
             scoreRepository
+        )
+    }
+
+    @Bean
+    fun marketUseCase(
+        proTeamRepository: ProTeamRepository,
+        proLeagueRepository: ProLeagueRepository
+    ): MarketService{
+        return MarketService(
+            proTeamRepository,
+            proLeagueRepository
         )
     }
 }

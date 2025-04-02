@@ -8,12 +8,14 @@ enum class RoleEnum(val id: Int, private val description: String) {
     ADC(5, "Bottom");
 
     companion object{
-        fun fromId(id: Int): RoleEnum? {
-            return entries.find { it.id == id }
+        fun fromId(id: Int): String {
+            return entries.find { it.id == id }?.description ?: "UNKNOWN"
         }
 
-        fun fromDescription(description: String): RoleEnum? {
-            return entries.find { it.description.equals(description, ignoreCase = true)}
+        fun fromDescription(description: String): Int? {
+            return entries.find { it.description.equals(description, ignoreCase = true)}?.id
         }
+
+        fun contains(id: Int): Boolean = entries.any{ it.id == id }
     }
 }
