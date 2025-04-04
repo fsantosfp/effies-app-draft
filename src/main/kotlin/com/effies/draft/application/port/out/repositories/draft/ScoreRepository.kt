@@ -1,4 +1,4 @@
-package com.effies.draft.application.port.out.repositories
+package com.effies.draft.application.port.out.repositories.draft
 
 import com.effies.draft.adapter.out.persistence.postgres.draft.ScoreEntity
 import org.springframework.data.repository.CrudRepository

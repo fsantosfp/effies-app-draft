@@ -1,6 +1,10 @@
 package com.effies.draft.adapter.`in`.http.configs
 
-import com.effies.draft.application.port.out.repositories.*
+import com.effies.draft.application.port.out.repositories.draft.FinancialRepository
+import com.effies.draft.application.port.out.repositories.draft.ScoreRepository
+import com.effies.draft.application.port.out.repositories.draft.TeamRepository
+import com.effies.draft.application.port.out.repositories.professional.ProLeagueRepository
+import com.effies.draft.application.port.out.repositories.professional.ProTeamRepository
 import com.effies.draft.application.services.MarketService
 import com.effies.draft.application.services.TeamService
 import org.springframework.context.annotation.Bean

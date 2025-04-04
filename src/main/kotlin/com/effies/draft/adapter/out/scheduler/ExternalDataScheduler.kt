@@ -1,52 +1,35 @@
 package com.effies.draft.adapter.out.scheduler
 
-import com.effies.draft.adapter.out.api.LegueOfLegendsExternalApi
-import com.effies.draft.adapter.out.api.msg.ProPlayerResponse
-import com.effies.draft.adapter.out.api.msg.ProTeamResponse
-import com.effies.draft.application.port.out.repositories.ProLeagueRepository
-import com.effies.draft.application.port.out.repositories.ProTeamRepository
-import com.effies.draft.mappers.professional.toEntity
+import com.effies.draft.adapter.out.scheduler.tasks.*
+import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 
 @Component
-class ExternalDataScheduler(
-    private val lolClient: LegueOfLegendsExternalApi,
-    private val leagueRepository: ProLeagueRepository,
-    private val teamRepository: ProTeamRepository
-) {
+class ExternalDataScheduler (
+    private val scheduleTask: ProScheduleTask,
+    private val teamTask: ProTeamTask,
+    private val tournamentTask: ProTournamentTask,
+    private val matchTask: ProGameTask,
+    private val gameStaticsTask: GameStaticsTask
+    ){
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @Scheduled(fixedDelay = 120_000)
+    fun executeOnceADay(){
+        logger.info("Starting Scheduler - Cache data")
+
+            tournamentTask.execute()
+            teamTask.execute()
+            scheduleTask.execute()
+            matchTask.execute()
+    }
 
     @Scheduled(fixedDelay = 60_000)
-    fun getInfo(){
-
-        try {
-
-            val leagues = lolClient.getLeague().leagues
-            val teams = lolClient.getTeams()?.teams
-
-            leagues.forEach {
-
-                val league = it.toEntity()
-                leagueRepository.save(league)
-
-                teams
-                    ?.filter { team -> team.homeLeague?.name == league.name }
-                    ?.forEach { responseTeam ->
-                        if( isActiveTeam(responseTeam) && hasPlayers(responseTeam.players) ){
-                            val team = responseTeam.toEntity(league)
-                            team.players.addAll(responseTeam.players!!.toEntity(team))
-                            teamRepository.save(team)
-                        }else{
-                            teamRepository.deleteById(responseTeam.id)
-                        }
-                    }
-            }
-
-        }catch (e: Exception){
-            println(e)
-        }
+    fun executeEveryMinute(){
+        logger.info("Starting Scheduler - live data")
+        gameStaticsTask.execute()
     }
-    private fun isActiveTeam(team: ProTeamResponse) = team.status != "archived" && team.homeLeague != null
-    private fun hasPlayers(players: List<ProPlayerResponse>?) = !players.isNullOrEmpty()
+
 
 }

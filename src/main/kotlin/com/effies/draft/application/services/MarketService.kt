@@ -1,10 +1,9 @@
 package com.effies.draft.application.services
 
-import com.effies.draft.application.port.out.repositories.ProLeagueRepository
-import com.effies.draft.application.port.out.repositories.ProTeamRepository
+import com.effies.draft.application.port.out.repositories.professional.ProLeagueRepository
+import com.effies.draft.application.port.out.repositories.professional.ProTeamRepository
 import com.effies.draft.domains.RoleEnum
 import com.effies.draft.domains.draft.*
-import com.effies.draft.domains.professional.HomeLeague
 import com.effies.draft.domains.professional.ProTeam
 import com.effies.draft.mappers.professional.toDomain
 
